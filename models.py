@@ -21,7 +21,7 @@ class Role(str, Enum):
 class User(BaseModel):
     id: Optional[UUID] = uuid4()
     first_name: str
+    middle_name: Optional[str] = None
     last_name: str
-    middle_name: Optional[str]
     gender: Gender
     roles: list[Role]

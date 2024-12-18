@@ -32,3 +32,9 @@ db: List[User] = [
 @app.get("/")
 async def root():
     return {"Hello": "World"}
+
+# Create a GET request to return all the user in our db
+@app.get("/api/v1/users")
+async def fetch_users():
+    return db;
+
