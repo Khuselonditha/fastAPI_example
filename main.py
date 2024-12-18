@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from typing import List
 from models import User, Gender, Role
-from uuid import uuid4
+from uuid import uuid4, UUID
 
 # Create an instance of the fastAPI
 app = FastAPI()
@@ -11,14 +11,14 @@ app = FastAPI()
 
 db: List[User] = [
     User(
-        id=uuid4(), 
+        id=UUID("32c229c9-27a7-4b01-8c80-4dcf4f881ec1"), 
         first_name="Avuya", 
         last_name="Nditha",
         gender=Gender.male,
         roles=[Role.user, Role.admin]
     ),
     User(
-        id=uuid4(), 
+        id=UUID("73cd7b39-94dc-434b-b32c-529018cecc99"), 
         first_name="Deneline",
         middle_name="Samira", 
         last_name="Mathebula",
