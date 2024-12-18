@@ -2,7 +2,7 @@
 from fastapi import FastAPI, HTTPException
 from typing import List
 from models import User, Gender, Role, UserUpdateRequest
-from uuid import uuid4, UUID
+from uuid import UUID
 
 # Create an instance of the fastAPI
 app = FastAPI()
@@ -35,11 +35,21 @@ async def root():
 # Create a GET request to return all the user in our db
 @app.get("/api/v1/users")
 async def fetch_users():
+    if not db:
+        raise HTTPException(
+            status_code=404,
+            detail="No users found in the database."
+        )
     return db;
 
 # Create a POST request to add a user to our database
 @app.post("/api/v1/users")
 async def register_user(user: User):
+    if any(existing_user.id == user.id for existing_user in db):
+        raise HTTPException(
+            status_code=400,
+            detail=f"User with id: {user.id} already exists."
+        )
     db.append(user)
     return {"id": user.id}
 
