@@ -25,3 +25,11 @@ class User(BaseModel):
     last_name: str
     gender: Gender
     roles: list[Role]
+
+
+# Create a class for updating user information
+class UserUpdateRequest(BaseModel):
+    first_name: Optional[str]
+    middle_name: Optional[str]
+    last_name: Optional[str]
+    roles: Optional[List[Role]]
