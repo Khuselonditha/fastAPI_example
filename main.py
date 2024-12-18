@@ -51,7 +51,7 @@ async def register_user(user: User):
             detail=f"User with id: {user.id} already exists."
         )
     db.append(user)
-    return {"id": user.id}
+    return {"id": user.id, "message": "User successfully added."}
 
 # Create a DELETE request to remove a user from the database
 @app.delete("/api/v1/users/{user_id}")
@@ -59,10 +59,10 @@ async def delete_user(user_id: UUID):
     for user in db:
         if user.id == user_id:
             db.remove(user)
-            return 
+            return "User successfully removed."
     raise HTTPException(
         status_code=404,
-        detail=f"user with id: {user_id} does not exist."
+        detail=f"User with id: {user_id} does not exist."
     )
 
 # Create a PUT request for updating user info on the database
@@ -78,7 +78,7 @@ async def update_user(user_update: UserUpdateRequest, user_id: UUID):
                 user.last_name = user_update.last_name
             if user_update.roles is not None:
                 user.roles = user_update.roles
-            return
+            return "Information updated succesfully."
     raise HTTPException(
         status_code=404,
         detail=f"user with id: {user_id} does not exist."
