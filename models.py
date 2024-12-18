@@ -9,6 +9,14 @@ class Gender(str, Enum):
     male = "male"
     female = "female"
 
+
+# Enum class for Gender
+class Roles(str, Enum):
+    admin = "admin"
+    user = "user"
+    student = "student"
+
+
 # Define the model of our user
 class User(BaseModel):
     id: Optional[UUID] = uuid4
