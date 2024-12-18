@@ -29,7 +29,7 @@ class User(BaseModel):
 
 # Create a class for updating user information
 class UserUpdateRequest(BaseModel):
-    first_name: Optional[str]
-    middle_name: Optional[str]
-    last_name: Optional[str]
-    roles: Optional[List[Role]]
+    first_name: Optional[str] = None
+    middle_name: Optional[str] = None
+    last_name: Optional[str] = None
+    roles: Optional[List[Role]] = None
