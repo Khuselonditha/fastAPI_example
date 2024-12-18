@@ -6,5 +6,5 @@ app = FastAPI()
 
 # Create a GET request (Home route)
 @app.get("/")
-def root():
+async def root():
     return {"Hello": "World"}
