@@ -59,7 +59,7 @@ async def delete_user(user_id: UUID):
     for user in db:
         if user.id == user_id:
             db.remove(user)
-            return "User successfully removed."
+            return {"id": user.id, "message":"User successfully removed."}
     raise HTTPException(
         status_code=404,
         detail=f"User with id: {user_id} does not exist."

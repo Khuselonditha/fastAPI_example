@@ -54,5 +54,32 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(len(db), 3)
 
 
+    # Test users POST route (user already exists)
+    def test_users_post_fail(self):
+        user = {
+            "id": str(UUID("32c229c9-27a7-4b01-8c80-4dcf4f881ec1")),
+            "first_name": "Khuselo",
+            "middle_name": "Lolo",
+            "last_name": "Nditha",
+            "gender": "male",
+            "roles": ["admin"]
+        }
+        response = self.client.post("/api/v1/users", json=user)
+        output = {"detail": "User with id: 32c229c9-27a7-4b01-8c80-4dcf4f881ec1 already exists."}
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json(), output)
+        self.assertEqual(len(db), 2)
+        
+
+    # Test users DELETE route (remove user in db)
+    def test_users_delete_pass(self):
+        user_id = "32c229c9-27a7-4b01-8c80-4dcf4f881ec1"
+        response = self.client.delete(f"/api/v1/users/{user_id}")
+        output = {"id": "32c229c9-27a7-4b01-8c80-4dcf4f881ec1", "message": "User successfully removed."}
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), output)
+        self.assertEqual(len(db), 1)
+
+
 if __name__ == "__main__":
     unittest.main()
