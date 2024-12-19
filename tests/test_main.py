@@ -80,6 +80,15 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(response.json(), output)
         self.assertEqual(len(db), 1)
 
+    # Test users DELETE route (user not in db)
+    def test_users_delete_fail(self):
+        user_id = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        response = self.client.delete(f"/api/v1/users/{user_id}")
+        output = {"detail": "User with id: 3fa85f64-5717-4562-b3fc-2c963f66afa6 does not exist."}
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json(), output)
+        self.assertEqual(len(db), 2)
+
 
 if __name__ == "__main__":
     unittest.main()
