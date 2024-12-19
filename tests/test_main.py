@@ -35,7 +35,23 @@ class TestAPI(unittest.TestCase):
         output = {"detail": "No users found in the database."}
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.json(), output)
+
     
+    # Test usesrs POST route (add user)
+    def test_users_post_pass(self):
+        user = {
+            "id": str(UUID("3fa85f64-5717-4562-b3fc-2c963f66afa6")),
+            "first_name": "John",
+            "middle_name": "Doe",
+            "last_name": "Smith",
+            "gender": "male",
+            "roles": ["admin"]
+        }
+        response = self.client.post("/api/v1/users", json=user)
+        output = {"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "message": "User successfully added."}
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), output)
+        self.assertEqual(len(db), 3)
 
 
 if __name__ == "__main__":
