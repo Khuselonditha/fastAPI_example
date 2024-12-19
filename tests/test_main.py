@@ -16,7 +16,7 @@ class TestAPI(unittest.TestCase):
         output = {"Hello": "World"}
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), output)
-
+    
     
     # Test users route (users in db)
     def test_users_pass(self):
@@ -36,7 +36,7 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.json(), output)
 
-    
+
     # Test usesrs POST route (add user)
     def test_users_post_pass(self):
         user = {
@@ -75,7 +75,7 @@ class TestAPI(unittest.TestCase):
     def test_users_delete_pass(self):
         user_id = "32c229c9-27a7-4b01-8c80-4dcf4f881ec1"
         response = self.client.delete(f"/api/v1/users/{user_id}")
-        output = {"id": "32c229c9-27a7-4b01-8c80-4dcf4f881ec1", "message": "User successfully removed."}
+        output = {"id": f"{user_id}", "message": "User successfully removed."}
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), output)
         self.assertEqual(len(db), 1)
@@ -85,7 +85,7 @@ class TestAPI(unittest.TestCase):
     def test_users_delete_fail(self):
         user_id = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
         response = self.client.delete(f"/api/v1/users/{user_id}")
-        output = {"detail": "User with id: 3fa85f64-5717-4562-b3fc-2c963f66afa6 does not exist."}
+        output = {"detail": f"User with id: {user_id} does not exist."}
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.json(), output)
         self.assertEqual(len(db), 2)
@@ -99,13 +99,26 @@ class TestAPI(unittest.TestCase):
             "roles": ["student", "admin"]
         }
         response = self.client.put(f"/api/v1/users/{user_id}", json=user_update)
-        output = {"id": "73cd7b39-94dc-434b-b32c-529018cecc99", "message": "User successfully updated."}
+        output = {"id": f"user_id", "message": "User successfully updated."}
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), output)
         self.assertEqual(len(db), 2)
         self.assertEqual(db[1].last_name, "Nditha")
         self.assertEqual(db[1].roles, ["student", "admin"])
 
+
+    # Test users UPDATE route (user not in db)
+    def test_users_update_fail(self):
+        user_id = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        user_update = {
+            "last_name": "Nditha",
+            "roles": ["student", "admin"]
+        }
+        response = self.client.put(f"/api/v1/users/{user_id}", json=user_update)
+        output = {"detail": f"User with id: {user_id} does not exist."}
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.json(), output)
+        self.assertEqual(len(db), 2)
 
 
 if __name__ == "__main__":

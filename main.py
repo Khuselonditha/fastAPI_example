@@ -81,5 +81,5 @@ async def update_user(user_update: UserUpdateRequest, user_id: UUID):
             return {"id": user.id, "message": "User successfully updated."}
     raise HTTPException(
         status_code=404,
-        detail=f"user with id: {user_id} does not exist."
+        detail=f"User with id: {user_id} does not exist."
     )
