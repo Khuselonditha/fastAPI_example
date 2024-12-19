@@ -80,6 +80,7 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(response.json(), output)
         self.assertEqual(len(db), 1)
 
+
     # Test users DELETE route (user not in db)
     def test_users_delete_fail(self):
         user_id = "3fa85f64-5717-4562-b3fc-2c963f66afa6"
@@ -88,6 +89,23 @@ class TestAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response.json(), output)
         self.assertEqual(len(db), 2)
+
+
+    # Test users UPDATE route (update user in db)\
+    def test_users_update_pass(self):
+        user_id = "73cd7b39-94dc-434b-b32c-529018cecc99"
+        user_update = {
+            "last_name": "Nditha",
+            "roles": ["student", "admin"]
+        }
+        response = self.client.put(f"/api/v1/users/{user_id}", json=user_update)
+        output = {"id": "73cd7b39-94dc-434b-b32c-529018cecc99", "message": "User successfully updated."}
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), output)
+        self.assertEqual(len(db), 2)
+        self.assertEqual(db[1].last_name, "Nditha")
+        self.assertEqual(db[1].roles, ["student", "admin"])
+
 
 
 if __name__ == "__main__":
