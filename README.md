@@ -42,7 +42,7 @@ pip install -r requirements.txt
 
 1. Start the FastAPI server with Uvicorn:
 ``` bash
-uvicorn main:app --reload
+python3 -m uvicorn main:app --reload
 ```
 
 2. Access the API documentation in your browser:
